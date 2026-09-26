@@ -8,7 +8,7 @@ internal readonly record struct FillShare
 {
     public const int MinPercent = 40;
     public const int MaxPercent = 95;
-    public const int DefaultPercent = 75;
+    public const int DefaultPercent = 90;
 
     private readonly float _ratio;
 

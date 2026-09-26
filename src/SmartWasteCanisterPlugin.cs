@@ -31,8 +31,8 @@ public class SmartWasteCanisterPlugin : BaseUnityPlugin
         _limitPercent = Config.Bind("General", "SmartCanisterLimitPercent", FillShare.DefaultPercent,
             new ConfigDescription(
                 "The suit stops filling a smart waste canister at this percentage of the canister's rated pressure " +
-                "(20265 kPa, where it starts to burst). 75 stops at 15199 kPa and leaves room for the canister to warm " +
-                "up afterwards. The game's own 4053 kPa is 40% of a plain canister.",
+                "(20265 kPa, where it starts to burst). 90 stops at 18239 kPa, about 2 MPa under the burst point even in " +
+                "vacuum. The game's own 4053 kPa is 40% of a plain canister.",
                 new AcceptableValueRange<int>(FillShare.MinPercent, FillShare.MaxPercent)));
 
         _enabled.SettingChanged += OnSettingChanged;

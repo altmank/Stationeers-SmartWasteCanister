@@ -1,7 +1,7 @@
 # Smart Waste Canister
 
 A Stationeers mod: with a Smart Gas Canister in the suit's Waste Tank slot, the suit keeps filtering, dumping
-exhaled gas and cooling until the canister reaches a share of its own rated pressure (default 75%, 15199 kPa),
+exhaled gas and cooling until the canister reaches a share of its own rated pressure (default 90%, 18239 kPa),
 instead of stopping at the game's fixed 4053 kPa. Any other canister keeps the game's limit.
 
 ## What the game does
@@ -36,18 +36,19 @@ dedicated server); the HUD reads the field on each player's own machine.
 - The `SuitBase` suit family in the code (`ItemSuitHard`, `ItemSuitNormal`, ... ) has no recipe and a different waste
   path that does not stop at the limit at all; it is left alone.
 
-## Why 75% by default
+## Why 90% by default
 
 A canister takes damage once |outside - inside| pressure reaches its rating for more than five ticks, and then
-explodes, scaled by how full it is. In vacuum the whole inside pressure counts. The suit stops adding at the limit,
-but a canister that warms afterwards keeps rising, so the default leaves a third of headroom. 95% is the ceiling.
+explodes, scaled by how full it is. In vacuum the whole inside pressure counts, so the fill must stay under the
+rating. Canisters in suit slots do not exchange heat, so a canister stays at the pressure the suit leaves it at: 90%
+keeps about 2 MPa under the burst point even in vacuum. 95% is the ceiling.
 
 ## Settings (BepInEx config `net.xceled.stationeers.smartwastecanister.cfg`)
 
 | Setting | Default | Meaning |
 | --- | --- | --- |
 | `Enabled` | true | Off gives every canister the game's 4053 kPa. |
-| `SmartCanisterLimitPercent` | 75 | Share of a smart canister's rating the suit fills it to, 40 to 95. |
+| `SmartCanisterLimitPercent` | 90 | Share of a smart canister's rating the suit fills it to, 40 to 95. |
 
 Both apply at once.
 
