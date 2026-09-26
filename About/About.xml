@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModMetadata xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Name>Smart Waste Canister</Name>
+  <Author>XCeled</Author>
+  <Version>1.0.0</Version>
+  <Description>[h1]A smart canister is a bigger waste tank[/h1]
+Put a Smart Gas Canister in your suit's Waste Tank slot and the suit keeps filtering, dumping your breath and cooling until the canister is three quarters full by its own rating, not at the 4053 kPa every canister gets in the base game. That is 15.2 MPa instead of 4 MPa: nearly four times the waste, and nearly four times the cooling on a hot world, before you need to swap.
+
+[hr][/hr]
+[h2]What changes[/h2]
+[list]
+[*]With a smart gas canister in the Waste Tank slot, the suit stops filling it at a share of the canister's own rated pressure (20265 kPa, where it starts to burst). The default share is 75%, so 15199 kPa.
+[*]Everything that goes by that limit follows: filtering, dumping exhaled gas, cooling, the suit's status, and the waste warnings and percentage on your HUD. A smart canister at 4 MPa no longer reads "almost full".
+[*]Any other canister, and a broken smart one, keeps the game's 4053 kPa.
+[*]Works for the Hardsuit and the Eva suits.
+[/list]
+
+[hr][/hr]
+[h2]Settings[/h2]
+In the StationeersLaunchPad config editor, or the config file [i]net.xceled.stationeers.smartwastecanister.cfg[/i]. Changes apply at once:
+[table]
+[tr][th]Setting[/th][th]Default[/th][th]What it does[/th][/tr]
+[tr][td][b]Enabled[/b][/td][td]on[/td][td]Off gives every canister the game's 4053 kPa again.[/td][/tr]
+[tr][td][b]SmartCanisterLimitPercent[/b][/td][td]75[/td][td]How full, as a percentage of the canister's rating, the suit may fill a smart waste canister. 40 to 95. 40 is the same share the game allows a plain canister.[/td][/tr]
+[/table]
+
+[hr][/hr]
+[h2]Removing it[/h2]
+Nothing is stored in your save. Disable or remove it at any time: the suit goes back to stopping at 4053 kPa. A smart canister already above that simply stays full until you empty it.
+
+[hr][/hr]
+[h2]Good to know[/h2]
+[list]
+[*]Why not fill to 100%? A canister starts to burst when the difference to the air around it reaches its rating, and in vacuum that is all of its pressure. A burst canister explodes on your back. The suit also stops only once the canister is at the limit; a canister that warms afterwards, on a hot world, keeps rising. 75% leaves a third of headroom for that.
+[*]A Suit Storage still empties the waste canister completely, whatever its pressure.
+[*]Multiplayer: the host, or the dedicated server, decides how full the suit fills, so it needs the mod. Each player who has it also sees the right warnings and percentage; a player without it sees the game's, so a smart canister above 4053 kPa reads over 100% to them.
+[*]If a game update changes what this depends on, the mod stays off and says so in the log.
+[/list]
+
+[hr][/hr]
+[b]Requires[/b] [url=https://github.com/StationeersLaunchPad/StationeersLaunchPad]StationeersLaunchPad[/url]
+
+[b]Source, issues and the full readme:[/b] [url=https://github.com/altmank/Stationeers-SmartWasteCanister]github.com/altmank/Stationeers-SmartWasteCanister[/url]
+
+Developed with the use of generative AI, and tokens aren't free. Buy me a coffee:
+[url=https://ko-fi.com/xceled]ko-fi.com/xceled[/url]
+  </Description>
+  <WorkshopHandle>0</WorkshopHandle>
+  <Tags />
+</ModMetadata>
