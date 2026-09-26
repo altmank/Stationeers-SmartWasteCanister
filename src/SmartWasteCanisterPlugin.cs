@@ -15,7 +15,7 @@ public class SmartWasteCanisterPlugin : BaseUnityPlugin
 {
     public const string pluginGuid = "net.xceled.stationeers.smartwastecanister";
     public const string pluginName = "SmartWasteCanister";
-    public const string pluginVersion = "1.0.0";
+    public const string pluginVersion = "1.1.0";
 
     internal static ManualLogSource Log { get; private set; }
 
@@ -38,34 +38,41 @@ public class SmartWasteCanisterPlugin : BaseUnityPlugin
         _enabled.SettingChanged += OnSettingChanged;
         _limitPercent.SettingChanged += OnSettingChanged;
         PublishPolicy();
+        PolicySync.Register(pluginName, pluginVersion);
 
         Harmony harmony = new(pluginGuid);
         if (!TryPatch(harmony, typeof(SuitTickPatch)))
         {
-            WasteLimit.Policy = VanillaLimit.Instance;
+            _enabled.SettingChanged -= OnSettingChanged;
+            _limitPercent.SettingChanged -= OnSettingChanged;
+            WasteLimit.Local = VanillaLimit.Instance;
+            PolicySync.LocalPolicyChanged();
             Logger.LogError($"{pluginName} {pluginVersion}: the suit patch failed, so the mod does nothing.");
             return;
         }
 
         if (!TryPatch(harmony, typeof(HudPatch)))
         {
-            Logger.LogWarning("The HUD patch failed: suits still fill as set, but a multiplayer client's waste " +
+            Logger.LogWarning("The HUD patch failed: suits still fill as set, but on a multiplayer client the waste " +
                 "warnings and percentage measure against the game's limit.");
         }
 
-        Logger.LogInfo($"{pluginName} {pluginVersion} loaded: {Describe(WasteLimit.Policy)}.");
+        Logger.LogInfo($"{pluginName} {pluginVersion} loaded: {Describe(WasteLimit.Local)}.");
     }
 
     private void OnSettingChanged(object sender, EventArgs e)
     {
         PublishPolicy();
-        Logger.LogInfo($"Now {Describe(WasteLimit.Policy)}.");
+        Logger.LogInfo($"Now {Describe(WasteLimit.Local)}.");
     }
 
-    private void PublishPolicy() =>
-        WasteLimit.Policy = _enabled.Value
+    private void PublishPolicy()
+    {
+        WasteLimit.Local = _enabled.Value
             ? new SmartCanisterLimit(FillShare.FromPercent(_limitPercent.Value))
             : VanillaLimit.Instance;
+        PolicySync.LocalPolicyChanged();
+    }
 
     private bool TryPatch(Harmony harmony, Type patch)
     {
@@ -81,7 +88,7 @@ public class SmartWasteCanisterPlugin : BaseUnityPlugin
         }
     }
 
-    private static string Describe(WastePolicy policy) => policy switch
+    internal static string Describe(WastePolicy policy) => policy switch
     {
         SmartCanisterLimit smart => $"smart waste canisters fill to {smart.Share.Percent}% of their rating",
         VanillaLimit => "off, every waste canister keeps the game's limit",

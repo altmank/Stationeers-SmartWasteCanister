@@ -18,7 +18,7 @@ internal static class SuitTickPatch
 
 /// <summary>
 /// On every machine, for the local player's suit: before the HUD reads the limit for the waste warnings and
-/// percentage. A multiplayer client does not run the suit's tick, so its HUD would otherwise use the game's limit.
+/// percentage. A multiplayer client does not run the suit's tick, so this is where its HUD gets the host's limit.
 /// </summary>
 [HarmonyPatch(typeof(StatusUpdates), "HandleIconUpdates")]
 internal static class HudPatch

@@ -1,4 +1,5 @@
 using System;
+using Assets.Scripts.Networking;
 using Assets.Scripts.Objects.Clothing;
 
 namespace SmartWasteCanister;
@@ -10,21 +11,36 @@ namespace SmartWasteCanister;
 /// </summary>
 internal static class WasteLimit
 {
-    private static volatile WastePolicy _policy = VanillaLimit.Instance;
+    private static volatile WastePolicy _local = VanillaLimit.Instance;
+    private static volatile WastePolicy _host = VanillaLimit.Instance;
     private static bool _faultLogged;
 
-    public static WastePolicy Policy
+    /// <summary>This machine's own settings: what single player, a host and a dedicated server fill to.</summary>
+    public static WastePolicy Local
     {
-        get => _policy;
-        set => _policy = value;
+        get => _local;
+        set => _local = value;
     }
+
+    /// <summary>
+    /// The policy the host announced. The game's limit until an announcement arrives, so a client's HUD never reads
+    /// calmer than the game's own.
+    /// </summary>
+    public static WastePolicy Host
+    {
+        get => _host;
+        set => _host = value;
+    }
+
+    /// <summary>A multiplayer client fills nothing itself: its suit stops where the host's policy says.</summary>
+    public static WastePolicy Effective => NetworkManager.IsClient ? _host : _local;
 
     /// <summary>Runs every atmospherics tick per worn suit and every HUD frame: no allocation.</summary>
     public static void Apply(Suit suit)
     {
         try
         {
-            suit.wasteMaxPressure = _policy.LimitFor(suit.WasteTank, VanillaLimitOf(suit));
+            suit.wasteMaxPressure = Effective.LimitFor(suit.WasteTank, VanillaLimitOf(suit));
         }
         catch (Exception e)
         {
