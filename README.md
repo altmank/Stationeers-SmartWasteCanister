@@ -54,8 +54,23 @@ Both apply at once.
 
 ## Multiplayer
 
-The host or dedicated server decides the fill, so it needs the mod. Players with the mod see matching HUD warnings;
-a player without it sees the game's, i.e. over 100% once a smart canister passes 4053 kPa.
+**The host, or the dedicated server, must have the mod, and everyone should have it with the same settings.** There
+is no version check between players: the mod sends nothing, so any mix can join.
+
+- **The host decides how full every suit fills.** Filtering, dumping exhaled gas, cooling and the suit's status run
+  only on the host's game, for every player's suit, using the host's `Enabled` and `SmartCanisterLimitPercent`.
+- **Each player's game draws their own HUD.** The waste warnings and percentage are worked out on the player's own
+  machine from their own copy of the suit, so a player with the mod gets them from their own settings.
+- **A player without the mod** fills as far as the host allows, but their HUD measures against the game's 4053 kPa:
+  over 100% and the full warning once a smart canister passes it. Nothing goes wrong beyond the warning.
+- **A host without the mod** stops every suit at 4053 kPa. A player who has the mod then sees a HUD that is too
+  calm: about 22% full (at the default 90%) at the point the suit stops filtering and cooling, with no warning.
+  Switch `Enabled` off when joining a host that does not run the mod.
+- **Different settings** on host and player make the player's HUD disagree with the host in the same way. Keep
+  `Enabled` and `SmartCanisterLimitPercent` the same for everyone.
+- Nothing is saved or sent, so joining a game in progress needs nothing special: the host sets the limit on its next
+  tick and the player's HUD on its next frame.
+- Worked out from the game's code rather than from a multiplayer session.
 
 ## Build
 

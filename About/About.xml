@@ -33,7 +33,7 @@ Nothing is stored in your save. Disable or remove it at any time: the suit goes 
 [list]
 [*]Why not fill to 100%? A canister starts to burst when the difference to the air around it reaches its rating, and in vacuum that is all of its pressure. A burst canister explodes on your back. A canister in a suit slot does not warm or cool, so it stays where the suit stops: 90% keeps about 2 MPa under the burst point even in vacuum.
 [*]A Suit Storage still empties the waste canister completely, whatever its pressure.
-[*]Multiplayer: the host, or the dedicated server, decides how full the suit fills, so it needs the mod. Each player who has it also sees the right warnings and percentage; a player without it sees the game's, so a smart canister above 4053 kPa reads over 100% to them.
+[*]Multiplayer: the host, or the dedicated server, decides how full every suit fills, so it needs the mod. Each player's HUD is worked out on their own machine: with the mod and the host's settings it shows the right warnings and percentage; without it, a smart canister above 4053 kPa reads over 100%. If the host does not run the mod, switch it off yourself, or your HUD reads far too low while the suit has already stopped filtering. Keep [b]SmartCanisterLimitPercent[/b] the same as the host's for the same reason.
 [*]If a game update changes what this depends on, the mod stays off and says so in the log.
 [/list]
 
