@@ -5,7 +5,7 @@ using Assets.Scripts.Objects.Pipes;
 namespace SmartWasteCanister;
 
 /// <summary>Decides the waste pressure at which a suit stops filtering, dumping and cooling into its waste canister.</summary>
-internal abstract record WastePolicy
+internal abstract class WastePolicy
 {
     /// <param name="wasteTank">The canister in the suit's Waste Tank slot, or null.</param>
     /// <param name="vanillaLimit">The suit prefab's own limit in kPa (4053 for every suit in the game).</param>
@@ -13,7 +13,7 @@ internal abstract record WastePolicy
 }
 
 /// <summary>The game's fixed limit, whatever the canister.</summary>
-internal sealed record VanillaLimit : WastePolicy
+internal sealed class VanillaLimit : WastePolicy
 {
     public static readonly VanillaLimit Instance = new();
 
@@ -26,8 +26,10 @@ internal sealed record VanillaLimit : WastePolicy
 /// An intact smart gas canister is filled to a share of its own rating; anything else keeps the game's limit.
 /// The result never drops below the game's limit.
 /// </summary>
-internal sealed record SmartCanisterLimit(FillShare Share) : WastePolicy
+internal sealed class SmartCanisterLimit(FillShare share) : WastePolicy
 {
+    public FillShare Share { get; } = share;
+
     public override float LimitFor(GasCanister wasteTank, float vanillaLimit) =>
         IsIntactSmartGasCanister(wasteTank)
             ? Math.Max(vanillaLimit, Share.Of(wasteTank.MaxPressure))

@@ -4,7 +4,7 @@ using Assets.Scripts.Atmospherics;
 namespace SmartWasteCanister;
 
 /// <summary>How full the suit may fill a smart canister, as a share of the canister's rated (burst) pressure.</summary>
-internal readonly record struct FillShare
+internal readonly struct FillShare
 {
     public const int MinPercent = 40;
     public const int MaxPercent = 95;
